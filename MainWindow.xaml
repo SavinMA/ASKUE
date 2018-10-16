@@ -1,0 +1,119 @@
+﻿<Window Loaded="mainWindow_Loaded"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:askue"
+        xmlns:Schema="clr-namespace:Npgsql.Schema;assembly=Npgsql" x:Name="mainWindow" x:Class="askue.MainWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d" Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" Foreground="White" BorderThickness="0" Icon="Images/logo_f.png">
+
+    <Window.Resources>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="500*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+            <Grid Height="50" VerticalAlignment="Top" Background="#FFA8CAE6">
+                <Image Source="Images/logo_f.png" Width="100" Height="44" HorizontalAlignment="Left" Margin="15,2,0,2" Stretch="UniformToFill"/>
+
+
+                <TextBlock x:Name="topTextBlock" Text="АСКУЭ ФГУП &quot;ФЭСКО&quot;" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" FontFamily="Lumberjack" Foreground="Black"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="ButtonHidden" Foreground="Black" BorderBrush="{x:Null}" Click="ButtonHidden_Click" Background="#00000000">
+                        <Image Source="Images/ic_remove_black_24dp.png"/>
+                    </Button>
+                    <Button x:Name="ButtonExit" Foreground="Black" Background="{x:Null}" BorderBrush="{x:Null}" Click="ButtonLogOut_Click">
+                        <Image Source="Images/ic_clear_black_24dp.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DockPanel Background="#FFECEFF1">
+                <Grid x:Name="GridMenu" DockPanel.Dock="Left" Width="250" >
+                    <StackPanel Orientation="Vertical" Background="#FFC1E0FF" >
+                        <Grid Height="60" RenderTransformOrigin="0.5, 0.5" Background="{x:Null}">
+                            <Grid.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Grid.RenderTransform>
+                            <Button x:Name="ButtonCloseMenu" Height="60" Width="60" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Click="ButtonCloseMenu_Click">
+                                <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
+                            </Button>
+                            <Button x:Name="ButtonOpenMenu" Visibility="Collapsed" Height="60" Width="60" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Click="ButtonOpenMenu_Click">
+                                <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
+                            </Button>
+                        </Grid>
+                        <ListView Foreground="#ff415565" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FFA0A0A0">
+                            <ListViewItem Height="60" x:Name="ItemObject" MouseUp="ItemObject_MouseUp" Foreground="Black">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10,0,0,0"/>
+                                    <TextBlock Text="Объекты учета" FontFamily="Century Gothic" FontSize="22" FontWeight="Bold" Margin="20,0,0,0"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+                            <ListViewItem Height="60" x:Name="ItemPoint" MouseUp="ItemPoint_MouseUp" Foreground="Black">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Images/baseline_list_alt_black_48dp.png" Height="25" Width="25" Margin="10,0,0,0"/>
+                                    <TextBlock Text="Точки учета" FontFamily="Century Gothic" FontSize="22" FontWeight="Bold" Margin="20,0,0,0"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+                            <ListViewItem x:Name="ItemTable" Height="60" Foreground="Black" MouseUp="ItemTable_MouseUp">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Application" Height="25" Width="25" Margin="10,0,0,0"/>
+                                    <TextBlock Text="Таблица" FontFamily="Century Gothic" FontSize="22" FontWeight="Bold" Margin="20,0,0,0"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+                            <ListViewItem Height="60" Foreground="Black" x:Name="GraphItem" MouseUp="GraphItem_MouseUp" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Triangle" Height="25" Width="25" Margin="10,0,0,0"/>
+                                    <TextBlock Text="График" FontFamily="Century Gothic" FontSize="22" FontWeight="Bold" Margin="20,0,0,0"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+                        </ListView>
+                    </StackPanel>
+
+                </Grid>
+                <Frame DockPanel.Dock="Top" x:Name="MainFrame" NavigationUIVisibility="Hidden" Source="/askue;component/Adress.xaml" VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20" VerticalAlignment="Bottom">
+                    <TextBlock x:Name="TextBlockBottom" HorizontalAlignment="Left" Height="20" Foreground="Black" FontFamily="Arial" FontSize="10"/>
+                    <TextBlock HorizontalAlignment="Right" Text="" FontFamily="Lumberjack Rough" Foreground="Black" FontSize="10"/>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

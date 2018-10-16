@@ -1,0 +1,22 @@
+﻿<Page x:Class="askue.Adress"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:askue"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d"
+      Title="Adress"
+      Loaded="Page_Loaded">
+
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <DataGrid x:Name="DB" Background="{x:Null}" SelectionChanged="DB_SelectionChanged" Language="ru-ru">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="cartHeader"  Header="Карточка точки учета" Click="cartHeader_Click"/>
+                    <MenuItem x:Name="graphHeader" Header="График энергопотребления" Click="graphHeader_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+</Page>
