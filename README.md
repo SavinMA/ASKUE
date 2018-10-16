@@ -1,2 +1,4 @@
 # ASKUE
-Client-side
+
+WPF, XAML+C#
+packages: LiveCharts, MaterialDesign, Npgsql
